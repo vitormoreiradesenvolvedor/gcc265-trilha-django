@@ -1,0 +1,18 @@
+{% extends "tutorial_enquetes/base.html" %}
+
+{% block titulo %}Resultado: {{ pergunta.texto }}{% endblock %}
+
+{% block conteudo %}
+  <h1>{{ pergunta.texto }}</h1>
+
+  <ul>
+    {% for opcao in pergunta.opcoes.all %}
+      <li>{{ opcao.texto }}: <strong>{{ opcao.votos }}</strong> voto{{ opcao.votos|pluralize }}</li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    <a href="{% url 'tutorial_enquetes:detalhe' pergunta.id %}">Votar de novo</a> ·
+    <a href="{% url 'tutorial_enquetes:index' %}">Voltar para a lista</a>
+  </p>
+{% endblock %}

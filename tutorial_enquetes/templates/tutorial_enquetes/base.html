@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Enquetes{% endblock %} · Trilha</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto;
+           padding: 0 1rem; line-height: 1.5; }
+    h1 { font-size: 1.4rem; }
+    ul { padding-left: 1.2rem; }
+    .erro { color: #b00020; font-weight: 600; }
+    .rodape { margin-top: 2.5rem; font-size: .8rem; opacity: .7; }
+  </style>
+</head>
+<body>
+  <main>{% block conteudo %}{% endblock %}</main>
+  <p class="rodape">
+    Aplicação de estudo do tutorial oficial do Django · GCC265 Mentoria Acadêmica I · UFLA
+  </p>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "tutorial_enquetes/base.html" %}
+
+{% block titulo %}Enquetes{% endblock %}
+
+{% block conteudo %}
+  <h1>Enquetes publicadas</h1>
+  {% if ultimas_perguntas %}
+    <ul>
+      {% for pergunta in ultimas_perguntas %}
+        <li><a href="{% url 'tutorial_enquetes:detalhe' pergunta.id %}">{{ pergunta.texto }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nenhuma enquete publicada ainda.</p>
+  {% endif %}
+{% endblock %}
