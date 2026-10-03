@@ -53,6 +53,14 @@ A raiz `/` redireciona para `/enquetes/`.
 | `DJANGO_DEBUG` | `1` | `0` em produção |
 | `DJANGO_ALLOWED_HOSTS` | vazio | host público, separado por vírgula, em produção |
 
+## Estado atual
+
+| Semana | Período | Estado |
+|---|---|---|
+| S1 | 28/09 a 04/10 | executada em 03/10 (início tardio registrado no diário) |
+| S2 | 05/10 a 11/10 | antecipada, executada em 03/10 |
+| S3 | 12/10 a 18/10 | publicação no Render, pendente |
+
 ## Cronograma
 
 Oito semanas, de 28/09 a 23/11 de 2026, com checkpoints em 20/10 (nível mínimo fechado) e
