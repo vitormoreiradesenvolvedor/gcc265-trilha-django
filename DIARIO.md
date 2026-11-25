@@ -81,3 +81,90 @@ mensagem de erro em vez de quebrar.
 **Aprendizado que levo.** Configuração que "parece boa prática" pode desligar um padrão seguro
 do framework. Antes de trocar um padrão do Django por variável de ambiente, vale ler o que o
 padrão já fazia.
+
+---
+
+> **Sobre as entradas 3 a 7.** Foram escritas em 24/11/2026, um dia depois do prazo do Relatório
+> Final (23/11), numa única sessão de trabalho. O código dessa sessão foi escrito com o Claude
+> Code (modelo Opus 5.5), conduzido e revisado por mim; os erros registrados abaixo são os que
+> apareceram de fato nessa sessão, com a mensagem exata quando houve uma. O uso de IA no produto
+> está descrito no Relatório Final.
+
+## Entrada 3: 24/11/2026, retomada depois de sete semanas parado
+
+**O que aconteceu entre 05/10 e 24/11.** Nenhum commit. A carga de trabalho fixo de 40 horas, a
+demanda de freelance e as entregas e provas do segundo bimestre ocuparam as horas que o
+Planejamento reservava ao projeto. Os gatilhos do risco R1 ("demanda de freelance acima de 8 horas
+em uma semana" e "sete dias corridos sem commit no repositório") foram atingidos já em outubro, e a
+resposta planejada, registrar a decisão neste diário no mesmo dia e usar a janela de
+renegociação de 20/10, **não foi executada**. Não houve renegociação de escopo.
+
+**Correção de datas.** Os seis primeiros commits foram feitos em 05/10 e tiveram as datas
+reescritas para 03/10. Corrigi as entradas 1 e 2 e declarei a reescrita no topo deste diário. Não
+reescrevi o histórico publicado de novo.
+
+**O que fiz.** Partes 5 e 6 do tutorial oficial: 11 testes (`publicada_recentemente`, listagem que
+esconde enquete futura, 404 no detalhe de enquete futura, voto) e o CSS movido para `static/`.
+
+## Entrada 4: 24/11/2026, testes quebrando depois de configurar o WhiteNoise
+
+**O problema.** Depois de preparar a publicação (gunicorn, WhiteNoise, `dj-database-url`), 9 dos
+11 testes das enquetes passaram a falhar com:
+
+```
+ValueError: Missing staticfiles manifest entry for 'tutorial_enquetes/estilo.css'
+```
+
+**A causa.** `CompressedManifestStaticFilesStorage` resolve `{% static %}` por um manifest que só
+existe depois de `collectstatic`. Na primeira rodada os testes passaram porque eu tinha acabado de
+rodar `collectstatic` e a pasta `staticfiles/` estava lá; quando ela foi apagada, o erro apareceu.
+Teste verde por acidente do ambiente local.
+
+**A solução.** Usar o storage com manifest só com `DEBUG=0`. Local e no CI, o Django serve os
+estáticos direto das pastas `static/` das aplicações. Commit próprio (`fix(build)`).
+
+## Entrada 5: 24/11/2026, conta por e-mail e isolamento por usuário
+
+**Decisões.**
+
+- O critério do nível esperado pede conta "com e-mail e senha", mas o `User` padrão do Django
+  entra por `username`. Em vez de trocar o modelo de usuário no meio do projeto (o que exige
+  migrations desde o início), o formulário de cadastro normaliza o e-mail em minúsculas e grava
+  nele o `username`. O `LoginView` padrão continua funcionando.
+- Isolamento: todas as views do material herdam um mixin cujo `get_queryset()` filtra por
+  `request.user`. Material de outra conta não aparece na lista e devolve 404 em editar e excluir,
+  sem precisar checar dono em cada view. Vindo do Laravel, é o equivalente a um global scope.
+
+**Verificação.** 11 testes do Trilha, incluindo os dois do critério de aceitação: material em 30%
+continua em 30% depois de sair e entrar de novo, e a segunda conta não vê nem edita o material da
+primeira.
+
+## Entrada 6: 24/11/2026, Google Books devolveu 429 com cota zero
+
+**O problema.** Antes de escrever a busca, consultei a API sem chave para ver o formato da
+resposta e recebi:
+
+```
+"code": 429, "status": "RESOURCE_EXHAUSTED", "quota_limit_value": "0"
+```
+
+A cota anônima por dia era zero: sem chave de API, a busca não funciona.
+
+**A solução.** A chave entra por variável de ambiente (`GOOGLE_BOOKS_API_KEY`), nunca no código.
+Qualquer falha (erro HTTP, timeout de 5 s, JSON inválido) vira `BuscaIndisponivel`, o endpoint
+responde 503 com mensagem, e a tela avisa e segue aceitando preenchimento manual. Os 10 testes da
+busca simulam o `requests.get`, então a suíte não depende da cota da API.
+
+**Pendente.** Sem a chave configurada no Render, o critério de aceitação do ambicioso ("digitar
+clean code e ver título e autor preenchidos sozinhos") não passa em produção.
+
+## Entrada 7: 24/11/2026, roteiro de aceitação em navegador real
+
+**O que fiz.** Rodei a aplicação com `gunicorn` e `DJANGO_DEBUG=0`, como roda no Render, e executei
+os roteiros de aceitação do Planejamento num Chrome headless (Playwright): voto contabilizado,
+enquete criada pelo usuário `avaliador` no Admin aparecendo na página inicial, conta criada,
+Clean Code em 30% depois de sair e entrar, segunda conta sem acesso (404) ao material da primeira.
+
+**O que travou.** O resumo mostrava "3 materialis". O filtro `pluralize:"is"` só acrescenta o
+sufixo, e "material" tem plural irregular. Trocado por `{% if %}`. O campo de busca também estava
+sem estilo, porque fica fora do `<form>` e o seletor do CSS era `form input`.
