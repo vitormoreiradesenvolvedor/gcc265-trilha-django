@@ -6,7 +6,7 @@
   <h1>Minha trilha</h1>
 
   <div class="resumo">
-    <div><strong>{{ resumo.total }}</strong> material{{ resumo.total|pluralize:"is" }}</div>
+    <div><strong>{{ resumo.total }}</strong> {% if resumo.total == 1 %}material{% else %}materiais{% endif %}</div>
     <div><strong>{{ resumo.media|default:0|floatformat:0 }}%</strong> do planejado saiu do papel</div>
     <div><strong>{{ resumo.concluidos }}</strong> concluído{{ resumo.concluidos|pluralize }}</div>
     <div><strong>{{ resumo.nao_comecados }}</strong> não começado{{ resumo.nao_comecados|pluralize }}</div>
