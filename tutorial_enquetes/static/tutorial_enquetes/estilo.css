@@ -1,0 +1,7 @@
+:root { color-scheme: light dark; }
+body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto;
+       padding: 0 1rem; line-height: 1.5; }
+h1 { font-size: 1.4rem; }
+ul { padding-left: 1.2rem; }
+.erro { color: #b00020; font-weight: 600; }
+.rodape { margin-top: 2.5rem; font-size: .8rem; opacity: .7; }
