@@ -25,3 +25,7 @@ services:
       # usuário avaliador só tem permissão sobre as enquetes, não sobre contas.
       - key: DJANGO_AVALIADOR_SENHA
         value: avaliacao-gcc265
+      # Chave da API do Google Books (nível ambicioso). Sem ela a cota anônima
+      # pode ser zero e a busca responde "indisponível"; definir no painel do Render.
+      - key: GOOGLE_BOOKS_API_KEY
+        sync: false

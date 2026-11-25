@@ -5,10 +5,68 @@
 {% block conteudo %}
   <h1>{% if object %}Atualizar “{{ object.titulo }}”{% else %}Novo material{% endif %}</h1>
 
+  {% if not object %}
+    <section class="busca" id="busca" data-url="{% url 'trilha:buscar' %}">
+      <label for="termo"><strong>Buscar livro no Google Books</strong></label>
+      <input type="search" id="termo" placeholder="ex.: clean code">
+      <button type="button" id="buscar">Buscar</button>
+      <p id="busca-status" role="status"></p>
+      <ul id="busca-resultados"></ul>
+    </section>
+  {% endif %}
+
   <form method="post" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Salvar</button>
     <a href="{% url 'trilha:minha_trilha' %}">Cancelar</a>
   </form>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (function () {
+      const secao = document.getElementById("busca");
+      if (!secao) return;
+      const termo = document.getElementById("termo");
+      const status = document.getElementById("busca-status");
+      const lista = document.getElementById("busca-resultados");
+
+      async function buscar() {
+        lista.replaceChildren();
+        if (!termo.value.trim()) return;
+        status.textContent = "Buscando…";
+        try {
+          const resposta = await fetch(secao.dataset.url + "?q=" + encodeURIComponent(termo.value));
+          const dados = await resposta.json();
+          if (!resposta.ok) { status.textContent = dados.erro; return; }
+          status.textContent = dados.resultados.length
+            ? "Escolha um resultado para preencher título e autor:"
+            : "Nenhum livro encontrado.";
+          for (const livro of dados.resultados) {
+            const item = document.createElement("li");
+            const botao = document.createElement("button");
+            botao.type = "button";
+            botao.className = "link";
+            botao.textContent = livro.autor ? livro.titulo + " · " + livro.autor : livro.titulo;
+            botao.addEventListener("click", function () {
+              document.getElementById("id_titulo").value = livro.titulo;
+              document.getElementById("id_autor").value = livro.autor;
+              status.textContent = "Título e autor preenchidos.";
+              lista.replaceChildren();
+            });
+            item.append(botao);
+            lista.append(item);
+          }
+        } catch (erro) {
+          status.textContent = "Busca indisponível agora. Preencha título e autor manualmente.";
+        }
+      }
+
+      document.getElementById("buscar").addEventListener("click", buscar);
+      termo.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); buscar(); }
+      });
+    })();
+  </script>
 {% endblock %}

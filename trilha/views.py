@@ -1,12 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count, Q
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 
 from .forms import CadastroForm, MaterialForm
+from .google_books import BuscaIndisponivel, buscar_livros
 from .models import Material
 
 
@@ -76,3 +79,15 @@ class MaterialDeleteView(MateriaisDoUsuarioMixin, generic.DeleteView):
     def form_valid(self, form):
         messages.success(self.request, f"“{self.object.titulo}” saiu da sua trilha.")
         return super().form_valid(form)
+
+
+@login_required
+def buscar(request):
+    """Endpoint usado pelo formulário do material: proxy para o Google Books."""
+    try:
+        resultados = buscar_livros(request.GET.get("q"))
+    except BuscaIndisponivel:
+        return JsonResponse(
+            {"erro": "Busca indisponível agora. Preencha título e autor manualmente."}, status=503
+        )
+    return JsonResponse({"resultados": resultados})

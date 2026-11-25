@@ -1,0 +1,25 @@
+name: testes
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  django-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Suíte django.test
+        run: |
+          set -o pipefail
+          python manage.py test --verbosity 2 2>&1 | tee resultado.txt
+      - name: Resumo da execução
+        if: always()
+        run: |
+          echo "## Testes do Trilha" >> "$GITHUB_STEP_SUMMARY"
+          grep -E "^(Ran|OK|FAILED)" resultado.txt >> "$GITHUB_STEP_SUMMARY" || true

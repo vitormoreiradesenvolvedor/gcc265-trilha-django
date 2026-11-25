@@ -10,6 +10,7 @@ urlpatterns = [
     path("novo/", views.MaterialCreateView.as_view(), name="novo"),
     path("<int:pk>/editar/", views.MaterialUpdateView.as_view(), name="editar"),
     path("<int:pk>/excluir/", views.MaterialDeleteView.as_view(), name="excluir"),
+    path("buscar/", views.buscar, name="buscar"),
     path("cadastro/", views.cadastro, name="cadastro"),
     path(
         "entrar/",
