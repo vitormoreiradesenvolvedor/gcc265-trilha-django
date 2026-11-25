@@ -1,0 +1,27 @@
+# Blueprint do Render: Web Service gratuito com PostgreSQL gerenciado.
+databases:
+  - name: trilha-db
+    plan: free
+    databaseName: trilha
+    user: trilha
+
+services:
+  - type: web
+    name: gcc265-trilha-django
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn trilha_projeto.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: trilha-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      # Senha pública de propósito: o roteiro de aceitação publica no README e o
+      # usuário avaliador só tem permissão sobre as enquetes, não sobre contas.
+      - key: DJANGO_AVALIADOR_SENHA
+        value: avaliacao-gcc265
