@@ -84,7 +84,7 @@ padrão já fazia.
 
 ---
 
-> **Sobre as entradas 3 a 7.** Foram escritas em 24/11/2026, um dia depois do prazo do Relatório
+> **Sobre as entradas 3 a 8.** Foram escritas em 24/11/2026, um dia depois do prazo do Relatório
 > Final (23/11), numa única sessão de trabalho. O código dessa sessão foi escrito com o Claude
 > Code (modelo Opus 5.5), conduzido e revisado por mim; os erros registrados abaixo são os que
 > apareceram de fato nessa sessão, com a mensagem exata quando houve uma. O uso de IA no produto
@@ -168,3 +168,30 @@ Clean Code em 30% depois de sair e entrar, segunda conta sem acesso (404) ao mat
 **O que travou.** O resumo mostrava "3 materialis". O filtro `pluralize:"is"` só acrescenta o
 sufixo, e "material" tem plural irregular. Trocado por `{% if %}`. O campo de busca também estava
 sem estilo, porque fica fora do `<form>` e o seletor do CSS era `form input`.
+
+## Entrada 8: 24/11/2026, publicar sem servidor: Django dentro do navegador
+
+**O problema.** A publicação no Render exige criar conta e conectar o repositório pelo painel, e
+eu quis publicar sem depender de conta de terceiro. O GitHub Pages, onde o repositório já está,
+só serve arquivos estáticos: não roda Python, não tem banco, não tem sessão. O Blueprint do Render
+(`render.yaml`) ficou no repositório, funcional, mas não foi usado.
+
+**A solução.** Rodar o próprio Django no navegador com o Pyodide (Python 3.14 em WebAssembly). Um
+carregador em JavaScript instala o Django, descompacta o projeto, monta o SQLite sobre o IndexedDB
+e transforma cada clique, formulário ou `fetch` em uma requisição WSGI para o mesmo handler que o
+gunicorn usaria. O HTML devolvido é escrito num iframe. Um workflow publica no Pages a cada push.
+
+**O que travou, em ordem.**
+
+1. `SynchronousOnlyOperation: You cannot call this from an async context`. O Pyodide mantém um
+   event loop sempre ativo, e o Django recusa ORM síncrono quando enxerga um. Como ali não há
+   threads, `DJANGO_ALLOW_ASYNC_UNSAFE=true` é seguro.
+2. `AttributeError: module 'hashlib' has no attribute 'pbkdf2_hmac'`. O `hashlib` do Pyodide não
+   tem OpenSSL. Escrevi um PBKDF2-HMAC-SHA256 em Python puro, conferido contra o `hashlib` local,
+   com menos iterações, já que a senha não sai do navegador.
+3. `ZoneInfoNotFoundError: No time zone found with key America/Sao_Paulo`, só no Admin. O fuso
+   precisa do pacote `tzdata`, carregado à parte no Pyodide.
+
+**O que muda em relação ao pactuado.** Cada navegador tem o próprio banco: o voto de uma pessoa não
+aparece para outra, e os dados não estão em PostgreSQL. Os roteiros de aceitação continuam
+executáveis por terceiro no link público, e passaram no Chrome headless contra o site gerado.

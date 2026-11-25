@@ -23,7 +23,15 @@ duas partes com fronteiras explícitas:
 
 ## Onde está no ar
 
-**Link público:** _preenchido após a publicação no Render_ (Blueprint em `render.yaml`).
+**Link público:** https://vitormoreiradesenvolvedor.github.io/gcc265-trilha-django/
+
+Publicado no **GitHub Pages**, com o Django rodando dentro do navegador pelo Pyodide (detalhes e
+limitações em [`navegador/README.md`](navegador/README.md)). Os dados ficam no navegador de quem
+abre o link. A rota aparece depois do `#`: por exemplo, `.../gcc265-trilha-django/#/trilha/`.
+
+O Planejamento previa o Render (Web Service com PostgreSQL). O Blueprint `render.yaml` continua no
+repositório e funciona, mas exige uma conta no Render; a publicação foi feita no GitHub Pages para
+não depender de conta de terceiro.
 
 | Rota | O que é |
 |---|---|
@@ -31,6 +39,8 @@ duas partes com fronteiras explícitas:
 | `/enquetes/` | Aplicação do tutorial (nível mínimo viável) |
 | `/trilha/` | Aplicação autoral Trilha (níveis esperado e ambicioso) |
 | `/admin/` | Administração. Usuário `avaliador`, senha `avaliacao-gcc265`, com permissão só sobre as enquetes |
+
+No GitHub Pages, cada rota vira `#/rota/` (ex.: `#/admin/`).
 
 ## Roteiros de aceitação (do Planejamento)
 
@@ -90,7 +100,7 @@ Para popular o usuário avaliador e a enquete de exemplo:
 | S1 | 28/09 a 04/10 | não executada; trabalho feito em 05/10 (ver correção de datas no diário) |
 | S2 | 05/10 a 11/10 | executada em 05/10: tutorial partes 1 a 4, diário entradas 1 e 2 |
 | S3 a S8 | 12/10 a 22/11 | não executadas: nenhum commit entre 05/10 e 24/11 (diário, entrada 3) |
-| Após o prazo | 24/11 | tutorial partes 5 e 6, preparação do Render, Trilha (esperado), busca no Google Books e GitHub Actions (ambicioso), diário entradas 3 a 7 |
+| Após o prazo | 24/11 | tutorial partes 5 e 6, Trilha (esperado), busca no Google Books e GitHub Actions (ambicioso), publicação no GitHub Pages com Pyodide, diário entradas 3 a 8 |
 
 O comparativo entre o pactuado e o entregue está no Relatório Final (instrumento I4).
 
