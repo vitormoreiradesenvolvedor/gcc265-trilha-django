@@ -1,0 +1,13 @@
+{% extends "trilha/base.html" %}
+
+{% block titulo %}Excluir material{% endblock %}
+
+{% block conteudo %}
+  <h1>Excluir “{{ object.titulo }}”?</h1>
+  <p>O material e o progresso registrado saem da sua trilha.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Excluir</button>
+    <a href="{% url 'trilha:minha_trilha' %}">Cancelar</a>
+  </form>
+{% endblock %}

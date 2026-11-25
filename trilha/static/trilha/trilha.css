@@ -1,0 +1,34 @@
+:root { color-scheme: light dark; --destaque: #2f6f4e; --trilho: #d9d9d9; --erro: #b00020; }
+@media (prefers-color-scheme: dark) { :root { --destaque: #6fcf97; --trilho: #444; --erro: #ff6b81; } }
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; max-width: 46rem; margin: 0 auto; padding: 0 1rem 2rem;
+       line-height: 1.5; }
+header { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline;
+         justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--trilho); }
+header .marca { font-weight: 700; font-size: 1.2rem; text-decoration: none; color: inherit; }
+header nav { display: flex; gap: 1rem; align-items: baseline; }
+header form { display: inline; }
+h1 { font-size: 1.4rem; }
+a { color: var(--destaque); }
+button, .botao { font: inherit; padding: .45rem .9rem; border-radius: .4rem; border: 1px solid var(--destaque);
+                 background: var(--destaque); color: #fff; cursor: pointer; text-decoration: none;
+                 display: inline-block; }
+button.link { background: none; border: 0; color: var(--destaque); padding: 0; text-decoration: underline; }
+.mensagens { list-style: none; padding: .6rem 1rem; border-left: 4px solid var(--destaque); }
+.erro, .errorlist { color: var(--erro); font-weight: 600; }
+.resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .75rem; margin: 1rem 0; }
+.resumo div { border: 1px solid var(--trilho); border-radius: .5rem; padding: .6rem .8rem; }
+.resumo strong { display: block; font-size: 1.5rem; }
+.materiais { list-style: none; padding: 0; }
+.materiais li { border: 1px solid var(--trilho); border-radius: .5rem; padding: .75rem 1rem; margin-bottom: .6rem; }
+.materiais .cabeca { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.materiais .autor { opacity: .75; }
+progress { width: 100%; height: .8rem; accent-color: var(--destaque); }
+form p { margin: .8rem 0; }
+form label { display: block; font-weight: 600; }
+form input[type=text], form input[type=email], form input[type=password], form input[type=number],
+form input[type=search] { width: 100%; max-width: 28rem; padding: .4rem; font: inherit; }
+.helptext { display: block; font-size: .85rem; opacity: .75; }
+.busca { border: 1px dashed var(--trilho); border-radius: .5rem; padding: .75rem 1rem; margin: 1rem 0; }
+.busca ul { padding-left: 1.2rem; }
+.rodape { margin-top: 2.5rem; font-size: .8rem; opacity: .7; }

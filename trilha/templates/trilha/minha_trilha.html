@@ -1,0 +1,37 @@
+{% extends "trilha/base.html" %}
+
+{% block titulo %}Minha trilha{% endblock %}
+
+{% block conteudo %}
+  <h1>Minha trilha</h1>
+
+  <div class="resumo">
+    <div><strong>{{ resumo.total }}</strong> material{{ resumo.total|pluralize:"is" }}</div>
+    <div><strong>{{ resumo.media|default:0|floatformat:0 }}%</strong> do planejado saiu do papel</div>
+    <div><strong>{{ resumo.concluidos }}</strong> concluído{{ resumo.concluidos|pluralize }}</div>
+    <div><strong>{{ resumo.nao_comecados }}</strong> não começado{{ resumo.nao_comecados|pluralize }}</div>
+  </div>
+
+  <p><a class="botao" href="{% url 'trilha:novo' %}">Cadastrar material</a></p>
+
+  {% if materiais %}
+    <ul class="materiais">
+      {% for material in materiais %}
+        <li>
+          <div class="cabeca">
+            <span>
+              <strong>{{ material.titulo }}</strong>
+              {% if material.autor %}<span class="autor">· {{ material.autor }}</span>{% endif %}
+            </span>
+            <span>{{ material.progresso }}% · {{ material.situacao }}</span>
+          </div>
+          <progress value="{{ material.progresso }}" max="100">{{ material.progresso }}%</progress>
+          <a href="{% url 'trilha:editar' material.pk %}">Atualizar progresso</a> ·
+          <a href="{% url 'trilha:excluir' material.pk %}">Excluir</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Sua trilha ainda está vazia. Cadastre o primeiro material que você pretende estudar.</p>
+  {% endif %}
+{% endblock %}

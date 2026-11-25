@@ -48,6 +48,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{h}" for h in ALLOWED_HOSTS]
 
 INSTALLED_APPS = [
     "tutorial_enquetes.apps.TutorialEnquetesConfig",
+    "trilha.apps.TrilhaConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -116,6 +117,11 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+
+LOGIN_URL = "trilha:entrar"
+LOGIN_REDIRECT_URL = "trilha:minha_trilha"
+LOGOUT_REDIRECT_URL = "inicio"
 
 
 # Internationalization

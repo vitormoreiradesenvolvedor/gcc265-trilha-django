@@ -1,0 +1,14 @@
+{% extends "trilha/base.html" %}
+
+{% block titulo %}Entrar{% endblock %}
+
+{% block conteudo %}
+  <h1>Entrar</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit">Entrar</button>
+  </form>
+  <p>Ainda não tem conta? <a href="{% url 'trilha:cadastro' %}">Criar conta</a>.</p>
+{% endblock %}
