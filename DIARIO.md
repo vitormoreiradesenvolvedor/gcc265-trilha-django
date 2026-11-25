@@ -3,9 +3,15 @@
 Registro datado do aprendizado de Django. Uma entrada por sessão de trabalho: o que fiz, o que
 travou e como resolvi. Meta do nível mínimo viável: pelo menos seis entradas datadas até 20/10.
 
+> **Correção de datas (24/11/2026).** As entradas 1 e 2 foram originalmente datadas de 03/10/2026,
+> e os seis primeiros commits do repositório tiveram as datas reescritas com `git filter-branch`
+> para o mesmo dia. A data real do trabalho é **05/10/2026**, entre 23h32 e 23h33 no horário dos
+> commits originais. O histórico reescrito foi mantido como está, sem novo force-push, e a
+> discrepância está declarada aqui e no Relatório Final.
+
 ---
 
-## Entrada 1: 03/10/2026, ambiente e primeiro projeto no ar localmente
+## Entrada 1: 05/10/2026, ambiente e primeiro projeto no ar localmente
 
 **O que fiz.** Criei o repositório, o ambiente virtual com Python 3.14.7 e Django 6.1.1, o
 projeto `trilha_projeto` e a aplicação `tutorial_enquetes`. Segui as partes 1 a 4 do tutorial
@@ -31,14 +37,14 @@ separa `urls.py` por aplicação com `app_name` e namespace, e a referência no 
 `{% url 'tutorial_enquetes:detalhe' pergunta.id %}`. Errei o namespace duas vezes antes de
 entender que `app_name` e o `include()` precisam concordar.
 
-**Início tardio.** O Planejamento prevê o início em 28/09, e eu comecei em 03/10, no fim da
-semana 1 do cronograma. Os primeiros dias foram perdidos e ficam registrados aqui: a comparação
+**Início tardio.** O Planejamento prevê o início em 28/09, e eu comecei em 05/10, já na
+semana 2 do cronograma. A semana 1 inteira foi perdida e ficam registrados aqui: a comparação
 honesta entre o pactuado e o entregue vale nota no Relatório Final, e o histórico do
 repositório é a evidência que sustenta o que eu declarar lá.
 
 ---
 
-## Entrada 2: 03/10/2026, ALLOWED_HOSTS derrubou o acesso local
+## Entrada 2: 05/10/2026, ALLOWED_HOSTS derrubou o acesso local
 
 **O problema.** Depois de passar `SECRET_KEY`, `DEBUG` e `ALLOWED_HOSTS` para variáveis de
 ambiente, pensando já na publicação no Render, a aplicação parou de responder na verificação

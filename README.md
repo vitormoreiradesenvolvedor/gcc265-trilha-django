@@ -57,8 +57,8 @@ A raiz `/` redireciona para `/enquetes/`.
 
 | Semana | Período | Estado |
 |---|---|---|
-| S1 | 28/09 a 04/10 | executada em 03/10 (início tardio registrado no diário) |
-| S2 | 05/10 a 11/10 | antecipada, executada em 03/10 |
+| S1 | 28/09 a 04/10 | não executada na semana; trabalho feito em 05/10 (ver correção de datas no diário) |
+| S2 | 05/10 a 11/10 | executada em 05/10 |
 | S3 | 12/10 a 18/10 | publicação no Render, pendente |
 
 ## Cronograma
